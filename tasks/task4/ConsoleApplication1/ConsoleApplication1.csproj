@@ -51,13 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Beginners.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="Experts.cs" />
+    <Compile Include="Creature.cs" />
+    <Compile Include="Spell.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Card.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Wizards.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
