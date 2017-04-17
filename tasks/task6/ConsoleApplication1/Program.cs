@@ -51,40 +51,32 @@ namespace Task6
         static void Task62(List<Card> allCards)
         {
             List<Task> tasks = new List<Task>();
+            var rng = new Random();
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 1; i < 5; i++)
             {
+                var tasknum = i;
                 Task task = Task.Run(() =>
                 {
-                    Task61a(allCards);
+                    int seconds = rng.Next(1, 4);
+                    Console.WriteLine("Task " + tasknum + " sleeping for " + seconds + " seconds");
+                    Thread.Sleep(TimeSpan.FromSeconds(seconds));
+                    Console.WriteLine("Task " + tasknum + " finished");
                 });
-                task.ContinueWith((t) => Console.WriteLine("Task finished!"));
+                task.ContinueWith(t => Console.WriteLine("Task" + tasknum + "finished!!! (ContinueWith)"));
                 tasks.Add(task);
             }
+
+            Console.WriteLine("All tasks started");
 
             foreach (Task t in tasks)
             {
                 t.Wait();
             }
-        }
-        /* //Async Beispiel#
-       
-        async static Task<double> ComputePi()
-        {
-            return await Task.Run(() =>
-            {
-                Thread.Sleep(TimeSpan.FromSeconds(15));
-                return 3.14;
-            });
-        }
 
-        void Task62_async()
-        {
-            Task<double> piTask = ComputePi();
-            piTask.ContinueWith((t) => Console.WriteLine("Pi = " + t.Result));
-            piTask.Wait();
-        }
-        */
+            Console.WriteLine("All tasks finished!!!");
+        }    
+        
         static void Main(string[] args)
         {
             var CardgameX = new List<Card>()
@@ -124,6 +116,11 @@ namespace Task6
             {
                 Console.WriteLine(card.name);
             }
+
+            Console.ReadKey();
+            Console.Clear();
+
+            Task61a(CardgameX);
 
             Console.ReadKey();
             Console.Clear();
