@@ -11,35 +11,37 @@ namespace Task6
 {
     class AllCards
     {
-        static void Task61a (List<Card> CardGameX)
+        static void Task61a (List<Card> allcards)
         {          
                 var subject = new Subject<Card>();
 
                 subject
-                    .Take(CardGameX.Count)
+
+                    .Take(allcards.Count)
                     .Sum(card => card.mana)
-                    .Subscribe(mana =>
+                    .Subscribe(manasum =>
                     {
-                        Console.WriteLine("Mana: " + mana);
+                        Console.WriteLine("Mana: " + manasum);
                     });
 
-                foreach (Card c in CardGameX)
-                {
-                    //Console.WriteLine("Adding element to Observable " + c.Name);
+                foreach (Card c in allcards)
+                {                
                     Thread.Sleep(TimeSpan.FromSeconds(2));
                     subject.OnNext(c);
-                    Console.WriteLine(Thread.CurrentThread.ManagedThreadId + ": Added element to Observable " + c.name);
+                    Console.WriteLine("Added element to Subject " + c.name);
                 }           
         }
 
         static void Task61b (Player player)
         {
             var observable = player.Hand.ToObservable();
+
             observable
+
                 .MinBy(card => card.mana)
-                .Subscribe(cards =>
+                .Subscribe(cardsminmana =>
                 {
-                    foreach (Card c in cards)
+                    foreach (Card c in cardsminmana)
                     {
                         Console.WriteLine("Card with lowest mana: " + c.name);
                     }
@@ -50,14 +52,14 @@ namespace Task6
         {
             List<Task> tasks = new List<Task>();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
-                Task result = Task.Run(() =>
+                Task task = Task.Run(() =>
                 {
                     Task61a(allCards);
                 });
-                result.ContinueWith((t) => Console.WriteLine("Task finished!"));
-                tasks.Add(result);
+                task.ContinueWith((t) => Console.WriteLine("Task finished!"));
+                tasks.Add(task);
             }
 
             foreach (Task t in tasks)
@@ -127,15 +129,13 @@ namespace Task6
             Console.Clear();
 
             Task61b(state.player1);
+            Console.WriteLine();
+            Task61b(state.player2);
 
             Console.ReadKey();
             Console.Clear();
 
-            Task62(CardgameX);
-            
-
-
-
+            Task62(CardgameX);         
         }
     }
 }
