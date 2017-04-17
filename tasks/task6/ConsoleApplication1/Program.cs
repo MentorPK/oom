@@ -58,12 +58,13 @@ namespace Task6
                 var tasknum = i;
                 Task task = Task.Run(() =>
                 {
-                    int seconds = rng.Next(1, 4);
+                    int seconds = rng.Next(2, 6);
                     Console.WriteLine("Task " + tasknum + " sleeping for " + seconds + " seconds");
                     Thread.Sleep(TimeSpan.FromSeconds(seconds));
+                    Console.WriteLine();
                     Console.WriteLine("Task " + tasknum + " finished");
                 });
-                task.ContinueWith(t => Console.WriteLine("Task" + tasknum + "finished!!! (ContinueWith)"));
+                task.ContinueWith(t => Console.WriteLine("Task " + tasknum + " finished!!! (ContinueWith)"));
                 tasks.Add(task);
             }
 
@@ -74,6 +75,7 @@ namespace Task6
                 t.Wait();
             }
 
+            Console.WriteLine();
             Console.WriteLine("All tasks finished!!!");
         }    
         
@@ -97,12 +99,12 @@ namespace Task6
             }
 
             GameState state = new GameState(new Player(), new Player(), CardgameX);
+          
+            Console.ReadKey();
+            Console.Clear();
 
             state.player1.PullCards(state, 4);
             state.player2.PullCards(state, 4);
-
-            Console.ReadKey();
-            Console.Clear();
 
             foreach (Card card in state.player1.Hand)
             {
@@ -111,7 +113,7 @@ namespace Task6
 
             Console.ReadKey();
             Console.Clear();
-
+           
             foreach (Card card in state.player2.Hand)
             {
                 Console.WriteLine(card.name);
@@ -124,9 +126,10 @@ namespace Task6
 
             Console.ReadKey();
             Console.Clear();
-
+            Console.WriteLine("Hand of Player 1:");
             Task61b(state.player1);
             Console.WriteLine();
+            Console.WriteLine("Hand of Player 2:");
             Task61b(state.player2);
 
             Console.ReadKey();
