@@ -26,7 +26,7 @@ namespace Task6
                 foreach (Card c in CardGameX)
                 {
                     //Console.WriteLine("Adding element to Observable " + c.Name);
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
                     subject.OnNext(c);
                     Console.WriteLine(Thread.CurrentThread.ManagedThreadId + ": Added element to Observable " + c.name);
                 }           
@@ -50,7 +50,7 @@ namespace Task6
         {
             List<Task> tasks = new List<Task>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Task result = Task.Run(() =>
                 {
@@ -65,7 +65,8 @@ namespace Task6
                 t.Wait();
             }
         }
-
+        /* //Async Beispiel#
+       
         async static Task<double> ComputePi()
         {
             return await Task.Run(() =>
@@ -81,7 +82,7 @@ namespace Task6
             piTask.ContinueWith((t) => Console.WriteLine("Pi = " + t.Result));
             piTask.Wait();
         }
-
+        */
         static void Main(string[] args)
         {
             var CardgameX = new List<Card>()
@@ -106,10 +107,8 @@ namespace Task6
             state.player1.PullCards(state, 4);
             state.player2.PullCards(state, 4);
 
-            Task62(CardgameX);
-            Task61b(state.player1);
-
-            Console.ReadLine();
+            Console.ReadKey();
+            Console.Clear();
 
             foreach (Card card in state.player1.Hand)
             {
@@ -125,6 +124,17 @@ namespace Task6
             }
 
             Console.ReadKey();
+            Console.Clear();
+
+            Task61b(state.player1);
+
+            Console.ReadKey();
+            Console.Clear();
+
+            Task62(CardgameX);
+            
+
+
 
         }
     }
